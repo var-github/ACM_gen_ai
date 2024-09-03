@@ -2,14 +2,11 @@ from groq import Groq
 import streamlit as st
 from huggingface_hub import InferenceClient
 
-api_GROQ = ""
-api_Hugging_Face = ""
-
 tab1, tab2 = st.tabs(["GROQ", "Hugging Face"])
 with tab1:
     if 'context_tab1' not in st.session_state:
         st.session_state['context_tab1'] = [{"role": "system", "content": "What can I help you with?"}]
-    chat_bot = Groq(api_key=api_GROQ)
+    chat_bot = Groq(api_key=st.secrets["api_GROQ"])
     st.header("Chatbot using GROQ")
     for message in st.session_state["context_tab1"]:
         if message["role"] == "system":
@@ -51,7 +48,7 @@ with tab2:
               "mistralai/Mistral-7B-Instruct-v0.1", "HuggingFaceH4/zephyr-7b-beta"]
 
     model = st.selectbox("Which model to use for Chatbot ?", options=models, index=0, on_change=refresh)
-    st.session_state['chat_bot'] = InferenceClient(model=model, token=api_Hugging_Face)
+    st.session_state['chat_bot'] = InferenceClient(model=model, token=st.secrets["api_Hugging_Face"])
 
     def output(messages):
         text = ""
