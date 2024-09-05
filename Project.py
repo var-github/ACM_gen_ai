@@ -48,12 +48,15 @@ with tab1:
 with tab2:
     if 'context_tab2' not in st.session_state:
         st.session_state['context_tab2'] = []
+    if 'history_tab2' not in st.session_state:
+        st.session_state['history_tab2'] = []
     if 'chat_bot' not in st.session_state:
         st.session_state['chat_bot'] = ""
     st.header("Chatbot using Hugging Face")
 
     def refresh():
         st.session_state['context_tab2'] = []
+        st.session_state['history_tab2'] = []
 
     models = ["mistralai/Mistral-Nemo-Instruct-2407", "mistralai/Mistral-7B-Instruct-v0.3",
               "mistralai/Mistral-7B-Instruct-v0.2", "google/gemma-1.1-7b-it",
@@ -63,15 +66,19 @@ with tab2:
     model = st.selectbox("Which model to use for Chatbot ?", options=models, index=0, on_change=refresh)
     st.session_state['chat_bot'] = InferenceClient(model=model, token=st.secrets["api_Hugging_Face"])
 
-    def output(messages):
-        text = ""
+   def output(messages):
+    text = ""
+    try:
         for message in st.session_state['chat_bot'].chat_completion(messages=messages, stream=True, max_tokens=8000):
             text = text + message.choices[0].delta.content
-        return text
+    except:
+        st.session_state["context_tab2"] = st.session_state["context_tab2"][2:]
+        text = output(st.session_state["context_tab2"])
+    return text
 
     with st.chat_message("ai"):
         st.write("What can I help you with?")
-    for message in st.session_state["context_tab2"]:
+    for message in st.session_state["history_tab2"]:
         with st.chat_message(message["role"]):
             st.write(message["content"])
     space_for_query = st.container()
@@ -95,10 +102,12 @@ with tab2:
             st.button("⛔️", key="7", disabled=True)
         with space_for_query.chat_message("user"):
             st.write(query)
+        st.session_state['history_tab2'].append({"role": "user", "content": f"{query}"})
         st.session_state['context_tab2'].append({"role": "user", "content": f"{query}"})
         with space_for_query:
             with st.spinner("Generating response..."):
                 response = output(st.session_state['context_tab2'])
+        st.session_state['history_tab2'].append({"role": "assistant", "content": response})
         st.session_state['context_tab2'].append({"role": "assistant", "content": response})
         with space_for_query.chat_message("ai"):
             st.write(response)
