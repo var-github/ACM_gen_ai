@@ -1,4 +1,4 @@
-# ACM Gen AI Project
+# <span style="color:blue">ACM Gen AI Project</span>
 In this project I have created a chatbot using GROQ and Hugging Face modules.
 As an additional feature the chatbots can also hold context across messages.
 
