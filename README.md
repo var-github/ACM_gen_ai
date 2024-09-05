@@ -23,3 +23,7 @@ The choice of model was done based on 3 conditions - size of model, context leng
 ---
 
 This app is currently hosted on streamlit at [https://varun-acm-gen-ai-project.streamlit.app/](https://varun-acm-gen-ai-project.streamlit.app/)
+
+
+https://github.com/user-attachments/assets/d7a80656-d7b8-42b3-81d3-8e8cfcb50d36
+
