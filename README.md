@@ -1,12 +1,12 @@
-## ACM Gen AI Project
+# ACM Gen AI Project
 In this project I have created a chatbot using GROQ and Hugging Face modules
 As an additional feature the chatbots can also hold context across messages
 
-# GROQ module
+### GROQ module
 This module uses an API and gets responses from its own language model (groq llm)
 It is extremely fast and has an efficient tokenizer inbuilt
 
-# Hugging Face module
+### Hugging Face module
 This module acts as an interface between the llm and python script
 The app has been configured to work with the following llms :-
 - Mistral-Nemo-Instruct-2407
