@@ -19,5 +19,5 @@ The app has been configured to work with the following llms :-
 - HuggingFaceH4/zephyr-7b-beta
 
 The choice of model was done based on 3 conditions - size of model, context length, no. of parameters it has been trained on.
-
+---------------------------------------------------------------
 This app is currently hosted on streamlit at [https://varun-acm-gen-ai-project.streamlit.app/](https://varun-acm-gen-ai-project.streamlit.app/)
