@@ -1,4 +1,4 @@
-$${\color{blue}# ACM Gen AI Project}$$
+# ACM Gen AI Project
 In this project I have created a chatbot using GROQ and Hugging Face modules
 As an additional feature the chatbots can also hold context across messages
 
@@ -18,3 +18,4 @@ The app has been configured to work with the following llms :-
 - Mistral-7B-Instruct-v0.1
 - HuggingFaceH4/zephyr-7b-beta
 
+The choice of model was done based on 3 conditions - size of model, context length, no. of parameters it has been trained on
