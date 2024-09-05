@@ -16,11 +16,24 @@ with tab1:
             with st.chat_message("user"):
                 st.write(message["content"])
     space_for_query = st.container()
-    query_input = st.empty()
-    query = query_input.chat_input("Enter query: ", key="tab1")
+    query_input = st.container()
+    col1, col2 = query_input.columns([12, 1])
+    with col1:
+        inp = st.empty()
+        query = inp.chat_input("Enter query: ", key="tab1")
+    with col2:
+        but = st.empty()
+        if but.button("⛔️", help="Clear chat", key="5"):
+            st.session_state['context_tab1'] = [{"role": "system", "content": "What can I help you with?"}]
+            st.rerun()
     if query:
-        query_input.empty()
-        query_input.chat_input("Enter query: ", key="3", disabled=True)
+        inp.empty()
+        but.empty()
+        col1, col2 = query_input.columns([12, 1])
+        with col1:
+            st.chat_input("Enter query: ", key="3", disabled=True)
+        with col2:
+            st.button("⛔️", key="9")
         with space_for_query.chat_message("user"):
             st.write(query)
         st.session_state['context_tab1'].append({"role": "user", "content": f"{query}"})
@@ -62,11 +75,24 @@ with tab2:
         with st.chat_message(message["role"]):
             st.write(message["content"])
     space_for_query = st.container()
-    query_input = st.empty()
-    query = query_input.chat_input("Enter query: ", key="tab2")
+    query_input = st.container()
+    col1, col2 = query_input.columns([12, 1])
+    with col1:
+        inp = st.empty()
+        query = inp.chat_input("Enter query: ", key="tab2")
+    with col2:
+        but = st.empty()
+        if but.button("⛔️", help="Clear chat", key="4"):
+            refresh()
+            st.rerun()
     if query:
-        query_input.empty()
-        query_input.chat_input("Enter query: ", key="2", disabled=True)
+        inp.empty()
+        but.empty()
+        col1, col2 = query_input.columns([12, 1])
+        with col1:
+            st.chat_input("Enter query: ", key="2", disabled=True)
+        with col2:
+            st.button("⛔️", key="7", disabled=True)
         with space_for_query.chat_message("user"):
             st.write(query)
         st.session_state['context_tab2'].append({"role": "user", "content": f"{query}"})
