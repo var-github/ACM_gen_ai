@@ -66,15 +66,15 @@ with tab2:
     model = st.selectbox("Which model to use for Chatbot ?", options=models, index=0, on_change=refresh)
     st.session_state['chat_bot'] = InferenceClient(model=model, token=st.secrets["api_Hugging_Face"])
 
-   def output(messages):
-    text = ""
-    try:
-        for message in st.session_state['chat_bot'].chat_completion(messages=messages, stream=True, max_tokens=8000):
-            text = text + message.choices[0].delta.content
-    except:
-        st.session_state["context_tab2"] = st.session_state["context_tab2"][2:]
-        text = output(st.session_state["context_tab2"])
-    return text
+    def output(messages):
+        text = ""
+        try:
+            for message in st.session_state['chat_bot'].chat_completion(messages=messages, stream=True, max_tokens=8000):
+                text = text + message.choices[0].delta.content
+        except:
+            st.session_state["context_tab2"] = st.session_state["context_tab2"][2:]
+            text = output(st.session_state["context_tab2"])
+        return text
 
     with st.chat_message("ai"):
         st.write("What can I help you with?")
