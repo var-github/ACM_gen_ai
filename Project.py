@@ -2,7 +2,7 @@ from groq import Groq
 import streamlit as st
 from huggingface_hub import InferenceClient
 
-column1, column2 = st.columns([9, 1])
+column1, column2 = st.columns([12, 4])
 with  column2:
     if st.toggle("Dark mode", value = True):
         st._config.set_option(f'theme.base' ,"dark")
