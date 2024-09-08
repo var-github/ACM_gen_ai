@@ -2,13 +2,7 @@ from groq import Groq
 import streamlit as st
 from huggingface_hub import InferenceClient
 
-column1, column2 = st.columns([12, 4])
-with  column2:
-    if st.toggle("Dark mode", value = True):
-        st._config.set_option(f'theme.base' ,"dark")
-    else:
-        st._config.set_option(f'theme.base' ,"light")
-tab1, tab2 = column1.tabs(["GROQ", "Hugging Face"])
+tab1, tab2 = st.tabs(["GROQ", "Hugging Face"])
 with tab1:
     if 'context_tab1' not in st.session_state:
         st.session_state['context_tab1'] = [{"role": "system", "content": "What can I help you with?"}]
