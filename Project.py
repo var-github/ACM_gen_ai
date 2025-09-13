@@ -37,7 +37,7 @@ with tab1:
         with space_for_query.chat_message("user"):
             st.write(query)
         st.session_state['context_tab1'].append({"role": "user", "content": f"{query}"})
-        output = chat_bot.chat.completions.create(messages=st.session_state['context_tab1'], model="meta-llama/llama-4-maverick-17b-128e-instruct", ).choices[0].message.content
+        output = chat_bot.chat.completions.create(messages=st.session_state['context_tab1'], model="llama-3.1-8b-instant", ).choices[0].message.content
         st.session_state['context_tab1'].append({"role": "system", "content": output})
         with space_for_query.chat_message("ai"):
             st.write(output)
@@ -113,4 +113,5 @@ with tab2:
             st.write(response)
         query_input.empty()
         st.rerun()
+
 
