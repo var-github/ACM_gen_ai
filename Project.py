@@ -37,7 +37,7 @@ with tab1:
         with space_for_query.chat_message("user"):
             st.write(query)
         st.session_state['context_tab1'].append({"role": "user", "content": f"{query}"})
-        output = chat_bot.chat.completions.create(messages=st.session_state['context_tab1'], model="llama-3.1-8b-instant", ).choices[0].message.content
+        output = chat_bot.chat.completions.create(messages=st.session_state['context_tab1'], model="llama3-8b-8192", ).choices[0].message.content
         st.session_state['context_tab1'].append({"role": "system", "content": output})
         with space_for_query.chat_message("ai"):
             st.write(output)
@@ -46,35 +46,23 @@ with tab1:
 
 
 with tab2:
-    if 'context_tab2' not in st.session_state:
-        st.session_state['context_tab2'] = []
     if 'history_tab2' not in st.session_state:
         st.session_state['history_tab2'] = []
+    if 'context_tab2' not in st.session_state:
+        st.session_state['context_tab2'] = []
     if 'chat_bot' not in st.session_state:
-        st.session_state['chat_bot'] = ""
+        st.session_state['chat_bot'] = InferenceClient(provider="auto", api_key=st.secrets["api_Hugging_Face"])
     st.header("Chatbot using Hugging Face")
 
     def refresh():
-        st.session_state['context_tab2'] = []
         st.session_state['history_tab2'] = []
+        st.session_state['context_tab2'] = []
 
-    models = ["mistralai/Mistral-Nemo-Instruct-2407", "mistralai/Mistral-7B-Instruct-v0.3",
-              "mistralai/Mistral-7B-Instruct-v0.2", "google/gemma-1.1-7b-it",
-              "meta-llama/Meta-Llama-3-8B-Instruct", "mistralai/Mixtral-8x7B-Instruct-v0.1",
-              "mistralai/Mistral-7B-Instruct-v0.1", "HuggingFaceH4/zephyr-7b-beta"]
+    models = ["openai/gpt-oss-120b", "meta-llama/Llama-3.1-405B-Instruct",
+              "mistralai/Mistral-7B-Instruct-v0.2", "deepseek-ai/DeepSeek-V3.1",
+              "google/gemma-2-9b-it", "Qwen/Qwen3-Coder-480B-A35B-Instruct"]
 
     model = st.selectbox("Which model to use for Chatbot ?", options=models, index=0, on_change=refresh)
-    st.session_state['chat_bot'] = InferenceClient(model=model, token=st.secrets["api_Hugging_Face"])
-
-    def output(messages):
-        text = ""
-        try:
-            for message in st.session_state['chat_bot'].chat_completion(messages=messages, stream=True, max_tokens=8000):
-                text = text + message.choices[0].delta.content
-        except:
-            st.session_state["context_tab2"] = st.session_state["context_tab2"][2:]
-            text = output(st.session_state["context_tab2"])
-        return text
 
     with st.chat_message("ai"):
         st.write("What can I help you with?")
@@ -106,12 +94,10 @@ with tab2:
         st.session_state['context_tab2'].append({"role": "user", "content": f"{query}"})
         with space_for_query:
             with st.spinner("Generating response..."):
-                response = output(st.session_state['context_tab2'])
+                response = st.session_state['chat_bot'].chat.completions.create(model=model, messages=st.session_state['context_tab2']).choices[0].message.content
         st.session_state['history_tab2'].append({"role": "assistant", "content": response})
         st.session_state['context_tab2'].append({"role": "assistant", "content": response})
         with space_for_query.chat_message("ai"):
             st.write(response)
         query_input.empty()
         st.rerun()
-
-
