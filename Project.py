@@ -60,7 +60,7 @@ with tab2:
 
     models = ["openai/gpt-oss-120b:fastest", "meta-llama/Llama-4-Maverick-17B-128E-Instruct:fastest",
               "mistralai/Mistral-7B-Instruct-v0.2:featherless-ai", "deepseek-ai/DeepSeek-V3.1",
-              "google/DiarizationLM-13b-Fisher-v1:fastest", "Qwen/Qwen3-Coder-480B-A35B-Instruct"]
+              "google/gemma-2-9b-it:fastest", "Qwen/Qwen3-Coder-480B-A35B-Instruct"]
 
     model = st.selectbox("Which model to use for Chatbot ?", options=models, index=0, on_change=refresh)
 
