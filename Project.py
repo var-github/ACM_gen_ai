@@ -59,7 +59,7 @@ with tab2:
         st.session_state['context_tab2'] = []
 
     models = ["openai/gpt-oss-120b:fastest", "meta-llama/Llama-4-Maverick-17B-128E-Instruct:fastest",
-              "mistralai/Mistral-7B-Instruct-v0.2:fastest", "deepseek-ai/DeepSeek-V3.1",
+              "mistralai/Mistral-7B-Instruct-v0.2:featherless-ai", "deepseek-ai/DeepSeek-V3.1",
               "google/gemma-2-9b-it", "Qwen/Qwen3-Coder-480B-A35B-Instruct"]
 
     model = st.selectbox("Which model to use for Chatbot ?", options=models, index=0, on_change=refresh)
